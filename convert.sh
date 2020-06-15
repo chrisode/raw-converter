@@ -12,29 +12,24 @@ if [ ! -z $2 ] ; then
     DONE_FOLDER=$2
 fi
 
-FILES=`find $FOLDER_TO_CONVERT -type f -name '*.CR2'`
-
 function convert() {
     FILE=$1
     OUTPUT=${FILE/$FOLDER_TO_CONVERT/$DONE_FOLDER}
     OUTPUT=${OUTPUT/.CR2/.jpg}
-    FILE_DIR=`dirname $OUTPUT`
-
-    mkdir -p $FILE_DIR
+    FILE_DIR=`dirname "$OUTPUT"`
+  
+    mkdir -p "$FILE_DIR"
     
-    ufraw-batch $FILE --wb=camera --lensfun=auto --overwrite --out-type=jpeg --output $OUTPUT;
+    ufraw-batch "$FILE" --wb=camera --lensfun=auto --overwrite --out-type=jpeg --output "$OUTPUT";
 }
 export -f convert
 export FOLDER_TO_CONVERT
 export DONE_FOLDER
 
-find $FOLDER_TO_CONVERT -type f -name '*.CR2' -print0 | xargs -0 -n 1 -P $THREADS -I {} bash -c 'convert "$@"' _ {} 
+find $FOLDER_TO_CONVERT -type f -name '*.CR2' -print0 -o -name '*.RW2' -print0 | xargs -0 -n 1 -P $THREADS -I {} bash -c 'convert "$@"' _ {} 
 
 unset convert
 unset FOLDER_TO_CONVERT
 unset DONE_FOLDER
-# for FILE in $FILES; do
-#     convert
-# done
 
  exit 0
