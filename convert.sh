@@ -16,6 +16,7 @@ function convert() {
     FILE=$1
     OUTPUT=${FILE/$FOLDER_TO_CONVERT/$DONE_FOLDER}
     OUTPUT=${OUTPUT/.CR2/.jpg}
+    OUTPUT=${OUTPUT/.RW2/.jpg}
     FILE_DIR=`dirname "$OUTPUT"`
   
     mkdir -p "$FILE_DIR"
