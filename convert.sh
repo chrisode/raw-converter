@@ -21,6 +21,10 @@ function convert() {
   
     mkdir -p "$FILE_DIR"
     
+    if [[ -f $OUTPUT ]]; then
+        return
+    fi
+
     ufraw-batch "$FILE" --wb=camera --lensfun=auto --overwrite --out-type=jpeg --output "$OUTPUT";
 }
 export -f convert
