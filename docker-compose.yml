@@ -1,0 +1,9 @@
+version: '2.1'
+services:
+    app:
+        build: .
+        container_name: converter
+        volumes:
+            - ./tmp/convert:/convert
+            - ./tmp/done:/done
+            - ./:/app

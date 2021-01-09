@@ -1,6 +1,9 @@
-FROM phusion/baseimage
+FROM alpine
 
-RUN apt-get update && apt-get -y install ufraw && apt-get clean
+RUN apk add bash rawtherapee
 RUN mkdir /app
 
+ADD lib /app/lib
 ADD convert.sh /app/convert.sh
+
+ENTRYPOINT [ "/app/convert.sh" ]
