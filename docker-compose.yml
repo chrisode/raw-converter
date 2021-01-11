@@ -3,6 +3,7 @@ services:
     app:
         build: .
         container_name: converter
+        command: tail -f /dev/null & wait
         volumes:
             - ./tmp/convert:/convert
             - ./tmp/done:/done
