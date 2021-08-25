@@ -3,7 +3,6 @@
 import exiftool
 import os
 import argparse
-import subprocess
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 
@@ -19,6 +18,9 @@ profiles_dir = f"{dir_path}/profiles"
 
 
 def get_available_profiles():
+    if not os.path.exists(profiles_dir):
+        return []
+
     profiles = [x for x in os.listdir(profiles_dir) if x.endswith(".pp3")]
 
     return profiles
@@ -65,5 +67,6 @@ def convert(file_to_convert, force=False):
     os.system(cmd)
 
     print("")
+
 
 convert(args.filename, args.force)
