@@ -4,6 +4,6 @@ services:
         build: .
         container_name: converter
         volumes:
-            - ./tmp/convert:/convert
-            - ./tmp/done:/done
-            - ./:/app
+            - ./tmp/convert:/convert:rw
+            - ./tmp/done:/done:rw
+            - ./profiles:/app/profiles

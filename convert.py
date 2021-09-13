@@ -3,17 +3,10 @@
 import exiftool
 import os
 import argparse
+import subprocess
+import logging
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-
-parser = argparse.ArgumentParser()
-
-parser.add_argument("filename", help="File to convert")
-parser.add_argument("-f", "--force", action="store_true",
-                    help="Force overwriting existing files")
-
-args = parser.parse_args()
-
 profiles_dir = f"{dir_path}/profiles"
 
 
@@ -37,36 +30,56 @@ def get_profile(path):
     try:
         index = profiles.index(profile_name)
         profile = profiles[index]
-        print(f"Processing with profile: {profile}")
+        logging.info(f"Processing with profile: {profile}")
         return f"-p {profiles_dir}/{profile}"
     except:
-        print(f"No profile found for Camera Model: {cameramodel}")
-        return ""
+        logging.info(f"No profile found for Camera Model: {cameramodel}")
+        return "-d"
 
 
-def get_output_file(file_to_convert):
+def get_output_file(file_to_convert, from_folder=None, output_folder=None):
     path, ext = os.path.splitext(file_to_convert)
-    path = path.replace("convert", "done")
+
+    if output_folder and from_folder:
+        path = path.replace(from_folder, output_folder)
+
     return f"{path}.jpg"
 
 
-def convert(file_to_convert, force=False):
-    output = get_output_file(file_to_convert)
+def convert(file_to_convert, from_folder=None, output_folder=None, force=False, verbose=False):
+    if verbose:
+        logging.basicConfig(level=logging.INFO)
+
+    output = get_output_file(file_to_convert, from_folder, output_folder)
     output_dir = os.path.dirname(output)
 
     if force == False and os.path.exists(output):
-        print("File already converted", file_to_convert, "\n")
+        print("File already converted:",
+              file_to_convert, "|", "Exists as:", output)
         return
 
     if os.path.exists(output_dir) == False:
         os.makedirs(os.path.dirname(output))
 
-    print("Converting file:", file_to_convert)
+    print("Converting file:", file_to_convert, "|", "Store as:", output)
     cmd = f"rawtherapee-cli -o \"{output}\" {get_profile(file_to_convert)} --js3 -q -Y -f -c \"{file_to_convert}\""
-    print("Running command:", cmd)
-    os.system(cmd)
-
-    print("")
+    proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
+    logging.info(str(proc))
 
 
-convert(args.filename, args.force)
+def __main__():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("filename", help="File to convert")
+    parser.add_argument("-v", "--verbose", action="store_true",
+                        help="Verbose logging")
+    parser.add_argument("-f", "--force", action="store_true",
+                        help="Force overwriting existing files")
+
+    args = parser.parse_args()
+
+    convert(args.filename, force=args.force, verbose=args.verbose)
+
+
+if __name__ == "__main__":
+    __main__()

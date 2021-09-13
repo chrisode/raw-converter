@@ -1,2 +1,13 @@
 tmp
+__pycache__
 .DS_Store
+.git
+.cache
+
+Dockerfile
+LICENSE
+*.yml
+*.md
+
+profiles/*
+!profiles/default.pp3
