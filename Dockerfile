@@ -1,6 +1,6 @@
 FROM ubuntu
 
-ADD requirements.txt /app/requirements.txt
+ADD /app/requirements.txt /app/requirements.txt
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \ 
@@ -10,6 +10,4 @@ RUN apt-get update \
     && apt-get -y autoremove && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/* 
 
-ADD . /app
-
-CMD ["sleep", "infinity"]
+ADD /app /app
