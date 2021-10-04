@@ -40,15 +40,28 @@ optional arguments:
   ```
 
 
+## How to run in a docker container
 
-## How to use docker image
+You can use a the `run_in_docker.py` script to run a command inside a docker container. This script will create a new container, run the script and then remove the container again. This script replaces the previous use of docker-compose and comes with the perc of allowing us to circumvent the limitation of only being able to run one instance of rawtherapee.
 
-By itself this container will do nothing. The job to convert will start once you run the scripts. 
+### Setting it up
+Before you can use the `run_in_docker.py` script do you need to create a config for it and install the required python libs. 
 
-`docker exec -it raw-converter /app/batch_convert.py -c /convert`
+**Install required libs**
 
-### Volumes the container expects
-- `/convert` ***(required)*** - The folder containing all your raw files you want to convert
-- `/app/profiles` ***(optional)*** - Rawtherapee profiles that you want to apply to your pictures 
+`pip3 install -r requirements.txt`
+
+**Docker config**
+
+Copy the example config `dokcer-config.example.json` to `docker-config.json` and add the path to the folder from where you want to convert your photos. The format in the config is in regular docker format `local_path:container_path`.
+
+### Run the script
+
+You need to tell the command which script you want to run and the parameters that script expect. 
+
+Run it like this for example to batch convert all raw files in /convert
+
+`./run_in_docker-py "batch_convert.py -c /convert"`
+
 
 

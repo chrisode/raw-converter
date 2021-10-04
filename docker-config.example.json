@@ -1,5 +1,6 @@
 {
     "volumes": [
-        "/local/path:/convert"
+        "/local/path:/convert",
+        "/local/profiles_path:/app/profiles"
     ]
 }
