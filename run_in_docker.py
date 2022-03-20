@@ -1,8 +1,8 @@
-#!/usr//bin/python3
+#!/usr/bin/env python3
 
 import argparse
-import docker
 import json
+import subprocess
 from os import path
 
 file_dir = path.dirname(path.abspath(__file__))
@@ -24,15 +24,22 @@ def get_container_image():
     return "kristofferlarsson/raw-converter"
 
 
+def get_docker_cmd(volumes, cmd):
+    docker_cmd = ["docker", "run"]
+
+    for volume in volumes:
+        docker_cmd += ["-v", volume]
+
+    docker_cmd += [get_container_image()]
+    docker_cmd += [f"/app/{cmd}"]
+
+    return " ".join(docker_cmd)
+
 parser = argparse.ArgumentParser()
 parser.add_argument("command", help="Convert command to run in docker")
 args = parser.parse_args()
 
-client = docker.from_env()
-container = client.containers.run(get_container_image(
-), f"/app/{args.command}", remove=True, detach=True, volumes=config.get("volumes"))
+cmd = get_docker_cmd(config.get("volumes"), args.command)
 
-logs = container.logs(stream=True)
-
-for line in logs:
-    print(line.decode("utf-8").strip())
+proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
+print(str(proc))
