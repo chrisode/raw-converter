@@ -27,11 +27,11 @@ def get_files_to_convert(folder):
     items = os.listdir(folder)
 
     files_to_convert = []
-    filetypes = (".CR2", "RW2")
+    filetypes = (".cr2", "rw2")
 
     for item in items:
         fullpath = os.path.join(folder, item)
-        if (item.endswith(filetypes)):
+        if (item.lower().endswith(filetypes)):
             files_to_convert.append(fullpath)
             next
 

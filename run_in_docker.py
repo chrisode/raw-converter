@@ -42,4 +42,4 @@ args = parser.parse_args()
 cmd = get_docker_cmd(config.get("volumes"), args.command)
 
 proc = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
-print(str(proc))
+print(str(proc.stdout.decode("utf-8").strip()))
