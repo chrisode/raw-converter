@@ -45,15 +45,11 @@ optional arguments:
 You can use a the `run_in_docker.py` script to run a command inside a docker container. This script will create a new container, run the script and then remove the container again. This script replaces the previous use of docker-compose and comes with the perc of allowing us to circumvent the limitation of only being able to run one instance of rawtherapee.
 
 ### Setting it up
-Before you can use the `run_in_docker.py` script do you need to create a config for it and install the required python libs. 
-
-**Install required libs**
-
-`pip3 install -r requirements.txt`
+Before you can use the `run_in_docker.py` script do you need to create a config for it.
 
 **Docker config**
 
-Copy the example config `dokcer-config.example.json` to `docker-config.json` and add the path to the folder from where you want to convert your photos. The format in the config is in regular docker format `local_path:container_path`.
+Copy the example config `dokcer-config.example.json` to `docker-config.json` and add the path to the folder from where you want to convert your photos. The format in the config is in regular docker format for volumes `local_path:container_path`.
 
 ### Run the script
 
