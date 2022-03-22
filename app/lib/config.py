@@ -1,0 +1,1 @@
+filetypes = ("cr2", "rw2", "nef")
