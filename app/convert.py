@@ -7,6 +7,7 @@ import logging
 from lib.convert_file import convert_file
 from lib.convert_folder import convert_folder
 
+
 def convert(filepath, output_folder=None, force=False, verbose=False):
     if verbose:
         logging.basicConfig(level=logging.INFO)
