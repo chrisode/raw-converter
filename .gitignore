@@ -5,4 +5,4 @@ __pycache__
 profiles/*
 !profiles/.gitkeep
 
-docker-config.json
+container-config.json

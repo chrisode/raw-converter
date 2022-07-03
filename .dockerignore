@@ -9,5 +9,6 @@ LICENSE
 *.yml
 *.md
 
+config/*
 profiles/*
 !profiles/default.pp3

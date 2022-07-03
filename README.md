@@ -4,13 +4,12 @@ A simple application to batch convert raw files to jpeg. It uses Rawtherapee to 
 
 Given it uses Rawtherapee-cli it is limited to run one instance of this script and cannot be run in parallel, unless you run multiple containers.
 
-## Scripts
+## How to use the script
+This script can convert a raw file into a jpg or a folder with raw files, including all its subfolders, into jpgs. By default will it use docker to run the script within a container. You can either run it directly `raw-converter/convert.py` or by invoking it with python `python3 raw-converter`.
 
-### convert.py
-This script can convert a raw file into a jpg or a folder with raw files, including all its subfolders, into jpgs.
-
+### Usage
 ```
-usage: convert.py [-h] [-o OUTPUT] [-v] [-f] filepath
+usage: convert.py [-h] [-o OUTPUT] [-v] [-f] [--no-container] filepath
 
 positional arguments:
   filepath              File or folder to convert
@@ -21,26 +20,9 @@ optional arguments:
                         Output folder, if not set will it output to same folder as files is in
   -v, --verbose         Verbose logging
   -f, --force           Force overwriting existing files
+  --no-container        Don't run the script in a container
 ```
+## Setting it up
+Before you can use the script do you need to create a config for how it should run the container.
 
-## How to run in a docker container
-
-You can use the `run_in_docker.py` script to run a command inside a docker container. This script will create a new container, run the script and then remove the container again. This script replaces the previous use of docker-compose and comes with the perc of allowing us to circumvent the limitation of only being able to run one instance of rawtherapee.
-
-### Setting it up
-Before you can use the `run_in_docker.py` script do you need to create a config for it.
-
-**Docker config**
-
-Copy the example config `dokcer-config.example.json` to `docker-config.json` and add the path to the folder from where you want to convert your photos. The format in the config is in regular docker format for volumes `local_path:container_path`.
-
-### Run the script
-
-You need to tell the command which script you want to run and the parameters that script expect. 
-
-Run it like this for example to batch convert all raw files in /convert
-
-`./run_in_docker-py "batch_convert.py -c /convert"`
-
-
-
+The config file is located in the folder `raw-converter/config`. To set it up copy the example config `/container-config.example.json` to `container-config.json` and add to the volumes array the path to the folder from where you want to convert your photos. The format in the config is in regular docker format for volumes `local_path:container_path`.
